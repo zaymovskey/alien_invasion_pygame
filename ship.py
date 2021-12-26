@@ -3,6 +3,12 @@ import pygame
 from settings import Settings
 
 
+def get_height_calculation_image(image, ship_width):
+    ship_height = (image.get_height() * ship_width) / image.get_width()
+    height_calculation_image = pygame.transform.scale(image, (ship_width, ship_height))
+    return height_calculation_image
+
+
 class Ship:
     def __init__(self, screen, ai_settings: Settings):
         """
@@ -14,7 +20,7 @@ class Ship:
 
         # Загрузка изображения корабля и получение прямоугольника
         image = pygame.image.load('images/spaceship.png')
-        self.image = pygame.transform.scale(image, (150, 90))
+        self.image = get_height_calculation_image(image, ai_settings.ship_width)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
