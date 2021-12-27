@@ -21,7 +21,7 @@ def run_game():
         # Отслеживание (прослушивание) событий клавиатуры и мыши
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        bullets.update()
+        gf.update_bullets(bullets)
         # При каждом проходе цикла перерисовывается экран
         gf.update_screen(ai_settings, screen, ship, bullets)
         # Отображение последнего прорисованного экрана
