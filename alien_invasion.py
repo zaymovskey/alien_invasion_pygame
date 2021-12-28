@@ -11,10 +11,11 @@ def run_game():
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
-    # Создание корабля
+    # Создание корабля, группы пуль и группы пришлельцев
     ship = Ship(screen, ai_settings)
-    # Создание группы для хранения пуль
     bullets = Group()
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, aliens)
 
     # Запуск основого цикла игры
     while True:
@@ -23,9 +24,8 @@ def run_game():
         ship.update()
         gf.update_bullets(bullets)
         # При каждом проходе цикла перерисовывается экран
-        gf.update_screen(ai_settings, screen, ship, bullets)
-        # Отображение последнего прорисованного экрана
-        pygame.display.flip()
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+
 
 
 run_game()

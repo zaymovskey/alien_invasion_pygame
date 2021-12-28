@@ -1,12 +1,6 @@
 import pygame
-
 from settings import Settings
-
-
-def get_height_calculation_image(image, ship_width):
-    ship_height = (image.get_height() * ship_width) / image.get_width()
-    height_calculation_image = pygame.transform.scale(image, (ship_width, ship_height))
-    return height_calculation_image
+from help_functions import get_height_calculation_image
 
 
 class Ship:
@@ -19,12 +13,11 @@ class Ship:
         self.ai_settings = ai_settings
 
         # Загрузка изображения корабля и получение прямоугольника
-        image = pygame.image.load('images/spaceship.png')
-        self.image = get_height_calculation_image(image, ai_settings.ship_width)
+        self.image = get_height_calculation_image(pygame.image.load('images/spaceship.png'), ai_settings.ship_width)
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        # Каждый новый корабль появляется у нижнего края экрана
+        # Каждый новый корабль появляется в центре экрана
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = self.screen_rect.centery
 
@@ -40,7 +33,6 @@ class Ship:
 
     def update(self):
         """Обновляет позицию корабля с учетом флага"""
-        # Обновляется атрибут center, не rect
         # Если координата правого края прямоугольника корабля меньше координаты правого края экрана
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.horizontal += self.ai_settings.ship_speed_factor

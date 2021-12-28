@@ -7,9 +7,9 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (0, 0, 0)
 
-        # Настройки корабля
+        # Параметры корабля
         self.ship_speed_factor = 1.5
-        self.ship_width = 150
+        self.ship_width = 100
 
         # Параметры пули
         self.bullet_speed_factor = 3
@@ -17,3 +17,6 @@ class Settings:
         self.bullet_height = 25
         self.bullet_color = (255, 255, 255)
         self.bullets_limit = 3
+
+        # Параметры пришельца
+        self.alien_width = 70
