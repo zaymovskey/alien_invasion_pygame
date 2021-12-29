@@ -4,23 +4,46 @@ from alien import Alien
 from bullet import Bullet
 from settings import Settings
 from pygame.sprite import Group
+
 from ship import Ship
 
 
-def create_fleet(ai_settings: Settings, screen, aliens):
-    """Создает флот пришельцев"""
-    # Вычисление количества пришельцев в ряду
-    # Интервал между соседними пришельцами равен одной ширине пришельца
+def get_number_rows(ai_settings: Settings, ship_height, alien_height):
+    """Определяет количество рядов, помещающихся на экране"""
+    available_space_y = ai_settings.screen_height - 3 * alien_height - ship_height
+    number_rows = int(available_space_y / (2 * alien_height))
+    return number_rows
+
+
+def create_alien(screen, ai_settings, aliens, alien_number, row_number):
+    """Создает пришельца и размещает его в ряду"""
+    alien = Alien(screen, ai_settings)
+    alien.x = ai_settings.alien_width + 2 * ai_settings.alien_width * alien_number
+    alien.rect.x = alien.x
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+    aliens.add(alien)
+
+
+def get_number_aliens_x(ai_settings):
+    """Вычисляет количество пришельцев в ряду"""
     available_space_x = ai_settings.screen_width - (2 * ai_settings.alien_width)
     number_aliens_x = int(available_space_x / (2 * ai_settings.alien_width))
+    return number_aliens_x
+
+
+def create_fleet(ai_settings: Settings, screen, aliens, ship):
+    """Создает флот пришельцев"""
+    alien = Alien(screen, ai_settings)
+    # Вычисление количества пришельцев в ряду
+    # Интервал между соседними пришельцами равен одной ширине пришельца
+    number_aliens_x = get_number_aliens_x(ai_settings)
+    number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
     # Создание первого ряда пришельцев
-    for alien_number in range(number_aliens_x):
-        # Создание пришельца и размещение его в ряду
-        alien = Alien(screen, ai_settings)
-        alien.x = ai_settings.alien_width + 2 * ai_settings.alien_width * alien_number
-        alien.rect.x = alien.x
-        aliens.add(alien)
+    for row_number in range(number_rows):
+        for alien_number in range(number_aliens_x):
+            # Создание пришельца и размещение его в ряду
+            create_alien(screen, ai_settings, aliens, alien_number, row_number)
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
